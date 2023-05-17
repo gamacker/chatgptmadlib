@@ -10,7 +10,7 @@ story = ""
 userInput = ""
 
 ORDER = []
-openai.api_key = "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"
+openai.api_key = token
 
 
 
