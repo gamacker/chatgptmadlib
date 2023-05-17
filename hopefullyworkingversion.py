@@ -22,7 +22,7 @@ def chat_with_gpt():
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": "With the additional prompt near the end of this message and after the colon, create a mad libs that can be filled out later, with exactly eight places where input is needed and exactly five sentances long. Specify the types of words that need to be filled out (adverb, verb, etc, but not name) by putting the word type in parentheses where the word should go. Do your best to make the stories silly, and make the input circomstances ambiguous so multiple words would work. Only output the paragraph. Do not add anything before or afterwards: " + userInput}
+            {"role": "user", "content": "With the additional prompt near the end of this message and after the colon, create a paragraph that can be filled out later, with 8 places where input is needed and roughly 5 total sentances. Specify the types of words that need to be filled out (adverb, verb, etc, but not name) by putting the word type in parentheses where the word should go. Do your best to make the stories silly, and make the input circomstances ambiguous so multiple words would work. Only output the paragraph. Do not add anything before or afterwards: " + userInput}
         ],
         max_tokens=500
     )
@@ -43,7 +43,7 @@ def check_with_gpt(word, type):
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "You are a helpful yet laconic assistant."},
-            {"role": "user", "content": "simply respond True or False to whether or not the first word after the colon is the type of word of the second word after the colon: " + word + " " + type}
+            {"role": "user", "content": "simply respond True or False to whether or not the first word after the colon is the type of word of the second word after the colon. Be specific; if the word type is noun, do not accept a plural noun: " + word + " " + type}
         ],
     )
     message = response['choices'][0]['message']['content']
@@ -94,17 +94,20 @@ while another:
     story = ""
     ORDER = []
     story = chat_with_gpt()
-    while len(ORDER) > 15 or len(ORDER) < 5:
-        ORDER = []
-        story = regenerate(story)
-        print(len(ORDER))
-        print(story)
-        print("\n\n\n\n")
+    #while len(ORDER) > 15 or len(ORDER) < 5:
+    #    ORDER = []
+    #    story = regenerate(story)
+    #    print(len(ORDER))
+    #    print(story)
+    #    print("\n\n\n\n")
 
     print("Number of openings: "+str(len(ORDER)))
+    print(story)
     for i in ORDER:
         dataFind = "("+i+")"
         userWord = input(i[0].upper()+i[1:]+": ")
+        if userWord == "iwanttoquit":
+            break
         while not check_with_gpt(userWord, i):
             print("thats the wrong type")
             userWord = input("What would you like the word to be?")
