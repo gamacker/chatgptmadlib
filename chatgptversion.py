@@ -10,7 +10,6 @@ openai.api_key = "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"
 
 
 
-
 def chat_with_gpt():
     global ORDER
     response = openai.ChatCompletion.create(
