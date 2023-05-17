@@ -1,5 +1,11 @@
 import openai
 import re
+From dotenv import load_dotenv
+load_dotenv()
+
+import os
+token = os.environ.get("apikey")
+
 story = ""
 userInput = ""
 
